@@ -7,7 +7,7 @@ from .models import Todo
 
 # Create your views here.
 @csrf_exempt
-def todo(request,pk):
+def todo(request,pk=None):
     if request.method == "POST":
         data=json.loads(request.body)
         serializer=TodoSerializer(data=data)
@@ -31,3 +31,15 @@ def todo(request,pk):
             return JsonResponse({"msg": "Todo updated successfully"})
         else:
             return JsonResponse(serializer.errors, status=400)
+        
+    elif request.method=="DELETE":
+        try:
+            todo = Todo.objects.get(id=pk)
+        except Todo.DoesNotExist:
+            return JsonResponse({'error': 'Todo not found'}, status=404)
+
+        todo.delete()
+        return JsonResponse({"msg": "Todo deleted successfully"}, status=204)
+    
+    else:
+        return JsonResponse({'error': 'Method not allowed'}, status=405)
