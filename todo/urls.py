@@ -20,5 +20,6 @@ from api import views
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("todo/<int:pk>",views.todo)
+    path("todo/",views.todo),
+    path("todo/<int:pk>",views.todo),
 ]
