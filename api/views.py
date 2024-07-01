@@ -3,6 +3,7 @@ import json
 from .serializer import TodoSerializer
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from .models import Todo
 
 # Create your views here.
 @csrf_exempt
@@ -15,3 +16,8 @@ def todo(request):
             return JsonResponse({"msg":"Todo inserted successfully"}, status=201)
         else:
             return JsonResponse(serializer.errors, status=400)
+        
+    elif request.method=="GET":
+        todos=Todo.objects.all()
+        serializer=TodoSerializer(todos, many=True)
+        return JsonResponse(serializer.data,safe=False,status=200)
