@@ -24,7 +24,10 @@ def todo(request,pk=None):
     
     elif request.method=="PUT":
         data=json.loads(request.body)
-        todo=Todo.objects.get(id=pk)
+        try:
+            todo = Todo.objects.get(id=pk)
+        except Todo.DoesNotExist:
+            return JsonResponse({'error': 'Todo not found'}, status=404)
         serializer = TodoSerializer(todo, data=data)
         if serializer.is_valid():
             serializer.save()
