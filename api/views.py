@@ -3,10 +3,14 @@ import json
 from .serializer import TodoSerializer
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import api_view, permission_classes
 from .models import Todo
 
 # Create your views here.
 @csrf_exempt
+@api_view(['GET', 'POST', 'PUT', 'DELETE'])
+@permission_classes([IsAuthenticated])
 def todo(request,pk=None):
     if request.method == "POST":
         data=json.loads(request.body)
