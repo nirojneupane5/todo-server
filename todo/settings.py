@@ -14,9 +14,11 @@ from pathlib import Path
 from decouple import config
 import os
 from datetime import timedelta
+import dj_database_url
 
 # Read SECRET_KEY from .env file
 SECRET_KEY = config('SECRET_KEY')
+DATABASES_URL=config('DATABASE_URL')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -110,7 +112,7 @@ WSGI_APPLICATION = "todo.wsgi.application"
 #         "NAME": BASE_DIR / "db.sqlite3",
 #     }
 # }
-
+# 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -120,6 +122,10 @@ DATABASES = {
         'HOST': 'localhost',  # Replace with your PostgreSQL server's address if necessary
         'PORT': '',          # Leave empty to use the default PostgreSQL port (usually 5432)
     }
+},
+
+DATABASES = {
+    'default': dj_database_url.parse(DATABASES_URL)
 }
 
 # Password validation
