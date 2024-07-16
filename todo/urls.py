@@ -19,6 +19,8 @@ from django.urls import path, include
 from rest_framework_simplejwt.views import TokenRefreshView
 from users.views import RegisterView, LoginView
 from api import views as todo_views
+from api.views import csrf
+
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -27,4 +29,5 @@ urlpatterns = [
     path('register/', RegisterView.as_view(), name='register'),
     path('login/', LoginView.as_view(), name='login'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+     path('csrf/', csrf, name='csrf'),
 ]
